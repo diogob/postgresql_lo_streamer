@@ -3,7 +3,21 @@
 module PostgresqlLoStreamer
   class LoController < ActionController::Base
     def stream
-      return render :nothing => true, :status => 200
+      send_file_headers!
+      self.status = 200
+      self.response_body = Enumerator.new do |y|
+        connection.exec "BEGIN;"
+        lo = connection.lo_open(params[:id].to_i, ::PG::INV_READ)
+        while data = connection.lo_read(lo, 4096) do
+          y << data
+        end
+        connection.lo_close(lo)
+        connection.exec "ROLLBACK;"
+      end
+    end
+
+    def connection
+      @con ||= ActiveRecord::Base.connection.raw_connection
     end
   end
 end
