@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    postgresql_lo_streamer (0.0.1)
+    postgresql_lo_streamer (0.1.0)
       rails (~> 3.2.8)
 
 GEM
