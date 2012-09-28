@@ -3,7 +3,7 @@
 module PostgresqlLoStreamer
   class LoController < ActionController::Base
     def stream
-      send_file_headers!
+      send_file_headers!({})
       self.status = 200
       self.response_body = Enumerator.new do |y|
         connection.transaction do
