@@ -7,11 +7,11 @@ require "postgresql_lo_streamer/version"
 Gem::Specification.new do |s|
   s.name        = "postgresql_lo_streamer"
   s.version     = PostgresqlLoStreamer::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of PostgresqlLoStreamer."
-  s.description = "TODO: Description of PostgresqlLoStreamer."
+  s.authors     = ["Diogo Biazus"]
+  s.email       = ["diogo@biazus.me"]
+  s.homepage    = "https://github.com/diogob/postgresql_lo_streamer"
+  s.summary     = "A Rails engine to stream PostgreSQL Large Objects to clients"
+  s.description = "A simple engine of one controller that will use PostgreSQL LO interface and retrieve a large object by its oid."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
 
