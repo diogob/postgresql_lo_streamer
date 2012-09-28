@@ -6,13 +6,13 @@ module PostgresqlLoStreamer
       send_file_headers!
       self.status = 200
       self.response_body = Enumerator.new do |y|
-        connection.exec "BEGIN;"
-        lo = connection.lo_open(params[:id].to_i, ::PG::INV_READ)
-        while data = connection.lo_read(lo, 4096) do
-          y << data
+        connection.transaction do
+          lo = connection.lo_open(params[:id].to_i, ::PG::INV_READ)
+          while data = connection.lo_read(lo, 4096) do
+            y << data
+          end
+          connection.lo_close(lo)
         end
-        connection.lo_close(lo)
-        connection.exec "ROLLBACK;"
       end
     end
 
