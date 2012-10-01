@@ -1,0 +1,6 @@
+language: ruby
+services: postgresql
+rvm:
+  - "1.9.3"
+before_script:
+  - psql -c 'create database postgresql_lo_test;' -U postgres
