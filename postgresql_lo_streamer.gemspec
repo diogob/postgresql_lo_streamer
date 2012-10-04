@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = "A Rails engine to stream PostgreSQL Large Objects to clients"
   s.description = "A simple engine of one controller that will use PostgreSQL LO interface and retrieve a large object by its oid."
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "rails", "~> 3.2.8"
 
