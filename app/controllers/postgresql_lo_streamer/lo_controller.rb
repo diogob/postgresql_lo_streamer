@@ -3,7 +3,8 @@
 module PostgresqlLoStreamer
   class LoController < ActionController::Base
     def stream
-      send_file_headers!({})
+      # TODO: make this headers configurable
+      send_file_headers!({:type => 'image/png', :disposition => 'inline'})
       self.status = 200
       self.response_body = Enumerator.new do |y|
         connection.transaction do
