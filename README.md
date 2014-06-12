@@ -2,7 +2,7 @@
 
 This gem adds to your application a controller that can read PostgreSQL Large Objects and stream them to a HTTP client.
 
-For more information on PostgreSQL Large Objects you can take a look at the [oficial docs](http://www.postgresql.org/docs/9.2/static/largeobjects.html)
+For more information on PostgreSQL Large Objects you can take a look at the [official docs](http://www.postgresql.org/docs/9.2/static/largeobjects.html)
 
 ## Installation
 
