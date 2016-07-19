@@ -1,6 +1,8 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe PostgresqlLoStreamer::LoController do
+  routes { PostgresqlLoStreamer::Engine.routes }
+
   subject{ response }
   let(:connection){ ActiveRecord::Base.connection.raw_connection }
   let(:file_content){ File.open("#{ENGINE_RAILS_ROOT}/spec/fixtures/test.jpg").read }
@@ -13,14 +15,14 @@ describe PostgresqlLoStreamer::LoController do
 
   describe "GET stream" do
     before do
-      controller.should_receive(:send_file_headers!)
+      expect(controller).to receive(:send_file_headers!)
       connection.transaction do
         @oid = connection.lo_creat
         lo = connection.lo_open(@oid, ::PG::INV_WRITE)
         size = connection.lo_write(lo, file_content)
         connection.lo_close(lo)
       end
-      get :stream, :id => @oid, :use_route => :postgresql_lo_streamer
+      get :stream, :id => @oid
     end
 
     after do
