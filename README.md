@@ -1,4 +1,4 @@
-# postgresql_lo_streamer [![Build Status](https://secure.travis-ci.org/diogob/postgresql_lo_streamer.png)](http://travis-ci.org/diogob/postgresql_lo_streamer)
+# postgresql_lo_streamer [![Build Status](https://travis-ci.org/diogob/postgresql_lo_streamer.svg?branch=master)](https://travis-ci.org/diogob/postgresql_lo_streamer)
 
 This gem adds to your application a controller that can read PostgreSQL Large Objects and stream them to a HTTP client.
 
