@@ -10,6 +10,14 @@ Add it to your Gemfile:
 
     gem 'postgresql_lo_streamer'
 
+### Configuration
+
+You can adjust default file streaming headers by tweaking configuration options:
+
+    PostgresqlLoStreamer.configure do |config|
+      config.options = {:type => 'image/png', :disposition => 'inline'}
+    end
+
 
 Add to your `config/routes.rb` the mount url where you are going to retrieve the files.
 The following example will create a route `/image_file/:id` where :id is the oid of the Large Object in the database:
