@@ -15,7 +15,7 @@ describe PostgresqlLoStreamer::LoController do
 
   describe "GET stream" do
     before do
-      expect(controller).to receive(:send_file_headers!)
+      expect(controller).to receive(:send_file_headers!).with({:type=>"image/png", :disposition=>"inline"})
       connection.transaction do
         @oid = connection.lo_creat
         lo = connection.lo_open(@oid, ::PG::INV_WRITE)
