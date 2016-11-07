@@ -23,6 +23,12 @@ module PostgresqlLoStreamer
       end
     end
 
+    def connection
+      @con ||= ActiveRecord::Base.connection.raw_connection
+    end
+
+    private
+      
     def object_exists?(identifier)
       begin
         connection.lo_open(identifier, ::PG::INV_READ)
@@ -30,17 +36,13 @@ module PostgresqlLoStreamer
         if e.to_s.include? "does not exist"
           return false
         end
+          
+        raise
       end
 
       return true
     end
-
-    def connection
-      @con ||= ActiveRecord::Base.connection.raw_connection
-    end
-
-    private
-
+      
     def configuration
       PostgresqlLoStreamer.configuration
     end
