@@ -39,7 +39,7 @@ describe PostgresqlLoStreamer::LoController do
       get :stream, :id => 9999
     end
 
-    its(:body) { should == nil }
+    its(:body) { should be_blank }
     its(:status) { should == 404 }
   end
 end

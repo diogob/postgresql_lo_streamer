@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     postgresql_lo_streamer (1.0.0)
-      rails (~> 4.0)
+      rails (>= 4.0)
 
 GEM
   remote: https://rubygems.org/
@@ -135,4 +135,4 @@ DEPENDENCIES
   rspec-rails
 
 BUNDLED WITH
-   1.12.5
+   1.13.6

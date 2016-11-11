@@ -15,7 +15,20 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
-ActiveRecord::Migration.maintain_test_schema!
+begin
+  ActiveRecord::Migration.maintain_test_schema!
+rescue
+  ActiveRecord::Base.establish_connection(
+    adapter: "postgresql",
+    host: "localhost",
+    username: "postgres",
+    password: "postgres",
+    port: 5432,
+    database: "postgres"
+  )
+  ActiveRecord::Base.connection.execute "CREATE DATABASE postgresql_lo_test"
+  retry
+end
 
 RSpec.configure do |config|
   config.use_transactional_fixtures = false
