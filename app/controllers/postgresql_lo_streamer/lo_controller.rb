@@ -8,9 +8,7 @@ module PostgresqlLoStreamer
 
       #send w/ correct mimetype
       require 'mimemagic'
-      binding.pry
-      object_extension = params[:id].split(".").last
-      type = MimeMagic.by_extension(object_extension).nil? ? "image/png" : MimeMagic.by_extension(object_extension).type
+      type = MimeMagic.by_extension(params['format']).nil? ? "image/png" : MimeMagic.by_extension(params['format']).type
       inline_dispositions = %w(jpg jpeg gif png svg css) #else attachment, download it
       disposition = inline_dispositions.any?{|i| type.include?(i)} ? "inline" : "attachment"
       send_file_headers!({:type => type, :disposition => disposition})
