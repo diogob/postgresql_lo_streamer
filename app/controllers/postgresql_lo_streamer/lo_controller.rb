@@ -3,7 +3,7 @@
 module PostgresqlLoStreamer
   class LoController < ActionController::Base
     def stream
-      send_file_headers! configuration.options
+      send_file_headers!(headers_for_extension_or_default)
 
       object_identifier = params[:id].to_i
       if !object_exists?(object_identifier)
@@ -28,7 +28,7 @@ module PostgresqlLoStreamer
     end
 
     private
-      
+
     def object_exists?(identifier)
       begin
         connection.lo_open(identifier, ::PG::INV_READ)
@@ -36,15 +36,51 @@ module PostgresqlLoStreamer
         if e.to_s.include? "does not exist"
           return false
         end
-          
+
         raise
       end
 
       return true
     end
-      
+
     def configuration
       PostgresqlLoStreamer.configuration
     end
+
+    def headers_for_extension_or_default
+      #extension provided and recognized
+      #Mime is built into rails
+      if params[:format].present? && Mime::Type.lookup_by_extension(params[:format]).present?
+        type = Mime::Type.lookup_by_extension(params[:format]).to_s
+        {type: type, disposition: disposition_from_type(type) }
+      else
+        configuration.options #fallback
+      end
+    end
+
+    def disposition_from_type(type)
+      #subjective switch statement, should be able to configure eventually
+      inline_types = [
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/svg+xml",
+        "text/css",
+        "text/plain",
+      ]
+      attachment_types = [
+        "text/csv"
+      ]
+
+      case type
+      when *inline_types
+        "inline"
+      when *attachment_types
+        "attachment"
+      else
+        "attachment" #fallback, subjective
+      end
+    end
+
   end
 end
