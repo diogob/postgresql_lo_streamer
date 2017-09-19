@@ -66,7 +66,7 @@ module PostgresqlLoStreamer
         "image/gif",
         "image/svg+xml",
         "text/css",
-        "text/plain",
+        "text/plain"
       ]
       attachment_types = [
         "text/csv"
