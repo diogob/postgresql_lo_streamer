@@ -8,7 +8,6 @@ module PostgresqlLoStreamer
 
       #send w/ correct mimetype
       object_extension = params[:id].split(".").last
-      binding.pry
       type = MimeMagic.by_extension(object_extension).nil ? "image/png" : MimeMagic.by_extension(object_extension).type
       inline_dispositions = %w(jpg jpeg gif png svg css) #else attachment, download it
       disposition = inline_dispositions.any?{|i| type.include?(i)} ? "inline" : "attachment"
