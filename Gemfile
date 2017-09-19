@@ -12,3 +12,4 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
+gem 'mimemagic', '0.3.2'

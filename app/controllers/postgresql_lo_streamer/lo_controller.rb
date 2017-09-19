@@ -3,9 +3,16 @@
 module PostgresqlLoStreamer
   class LoController < ActionController::Base
     def stream
-      send_file_headers! configuration.options
 
       object_identifier = params[:id].to_i
+
+      #send w/ correct mimetype
+      object_extension = params[:id].split(".").last
+      type = MimeMagic.by_extension(object_extension).nil ? "image/png" : MimeMagic.by_extension(object_extension).type
+      inline_dispositions = %w(jpg jpeg gif png svg css) #else attachment, download it
+      disposition = inline_dispositions.any?{|i| type.include?(i)} ? "inline" : "attachment"
+      send_file_headers! {:type => type, :disposition => disposition}
+
       if !object_exists?(object_identifier)
         self.status = 404
         render :nothing => true and return
@@ -28,7 +35,7 @@ module PostgresqlLoStreamer
     end
 
     private
-      
+
     def object_exists?(identifier)
       begin
         connection.lo_open(identifier, ::PG::INV_READ)
@@ -36,13 +43,13 @@ module PostgresqlLoStreamer
         if e.to_s.include? "does not exist"
           return false
         end
-          
+
         raise
       end
 
       return true
     end
-      
+
     def configuration
       PostgresqlLoStreamer.configuration
     end
