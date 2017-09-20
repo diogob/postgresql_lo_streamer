@@ -27,20 +27,18 @@ The following example will create a route `/image_file/:id` where :id is the oid
 
 If you specify an extension with your url, the default file streaming headers will be overridden.
 
-```ruby
-/file/38681 #=> image/png
-/file/38681.jpg #=> image/jpeg
-/file/38681.css #=> text/css
-```
+    /file/38681 #=> image/png
+    /file/38681.jpg #=> image/jpeg
+    /file/38681.css #=> text/css
 
 This allows you to dynamically stream resources of different types and send appropriate headers. Please note that only the following types will be sent with an inline disposition, otherwise, it will be sent as an attachment, forcing a download.
 
-  image/jpeg
-  image/png
-  image/gif
-  image/svg+xml
-  text/css
-  text/plain
+    image/jpeg
+    image/png
+    image/gif
+    image/svg+xml
+    text/css
+    text/plain
 
 In order for this to work in practice, you will likely need to store the extension or the url in the database alongside the oid when saving the file.
 
