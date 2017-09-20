@@ -59,7 +59,6 @@ module PostgresqlLoStreamer
     end
 
     def disposition_from_type(type)
-      #subjective switch statement, should be able to configure eventually
       inline_types = [
         "image/jpeg",
         "image/png",
@@ -68,17 +67,11 @@ module PostgresqlLoStreamer
         "text/css",
         "text/plain"
       ]
-      attachment_types = [
-        "text/csv"
-      ]
-
       case type
       when *inline_types
         "inline"
-      when *attachment_types
-        "attachment"
       else
-        "attachment" #fallback, subjective
+        "attachment" #fallback
       end
     end
 
