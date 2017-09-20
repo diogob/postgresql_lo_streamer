@@ -18,11 +18,31 @@ You can adjust default file streaming headers by tweaking configuration options:
       config.options = {:type => 'image/png', :disposition => 'inline'}
     end
 
-
 Add to your `config/routes.rb` the mount url where you are going to retrieve the files.
 The following example will create a route `/image_file/:id` where :id is the oid of the Large Object in the database:
 
     mount PostgresqlLoStreamer::Engine => "/image_file"
+
+## Passing mime-type with url
+
+If you specify an extension with your url, the default file streaming headers will be overridden.
+
+```ruby
+/file/38681 #=> image/png
+/file/38681.jpg #=> image/jpeg
+/file/38681.css #=> text/css
+```
+
+This allows you to dynamically stream resources of different types and send appropriate headers. Please note that only the following types will be sent with an inline disposition, otherwise, it will be sent as an attachment, forcing a download.
+
+  image/jpeg
+  image/png
+  image/gif
+  image/svg+xml
+  text/css
+  text/plain
+
+In order for this to work in practice, you will likely need to store the extension or the url in the database alongside the oid when saving the file.
 
 ## Using it with carrierwave-postgresql
 
@@ -31,7 +51,7 @@ If you are storing your files in the database using the [carrierwave-postgresql]
 So, for our previous example, if you have a model called `Image`, with and attribute called `file` (which is the oid referencing the Large Object), then the model will generate the URL matching our example. If you have more than one large object attribute in your database you can mount this engine multiple times with different URLs.
 
 ## Contributing to postgresql_lo_streamer
- 
+
  * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
  * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
  * Fork the project.
