@@ -1,19 +1,9 @@
 class PostgresqlLoStreamer::Streamer
-  attr_accessor :connection, :object_identifier, :format
+  attr_accessor :connection, :object_identifier
 
-  def initialize(connection, object_identifier, extension = nil)
+  def initialize(connection, object_identifier)
     @connection = connection
     @object_identifier = object_identifier
-    @format = extension
-  end
-
-  def default_headers
-    if @format.present? && Mime::Type.lookup_by_extension(@format).present?
-      type = Mime::Type.lookup_by_extension(@format).to_s
-      {type: type, disposition: disposition_from_type(type) }
-    else
-      configuration.options #fallback
-    end
   end
 
   def object_exists?
@@ -37,23 +27,6 @@ class PostgresqlLoStreamer::Streamer
         end
         @connection.lo_close(lo)
       end
-    end
-  end
-
-  def disposition_from_type(type)
-    inline_types = [
-      "image/jpeg",
-      "image/png",
-      "image/gif",
-      "image/svg+xml",
-      "text/css",
-      "text/plain"
-    ]
-    case type
-    when *inline_types
-      "inline"
-    else
-      "attachment" #fallback
     end
   end
 
