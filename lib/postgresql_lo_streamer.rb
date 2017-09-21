@@ -1,5 +1,6 @@
 require "postgresql_lo_streamer/engine"
 require "postgresql_lo_streamer/configuration"
+require "postgresql_lo_streamer/streamer"
 
 module PostgresqlLoStreamer
   class << self

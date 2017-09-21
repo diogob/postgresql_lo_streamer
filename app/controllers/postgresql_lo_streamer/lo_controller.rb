@@ -6,7 +6,7 @@ module PostgresqlLoStreamer
     def stream
 
       streamer = PostgresqlLoStreamer::Streamer.new(
-        ActiveRecord::Base.connection.raw_connection,
+        connection,
         params[:id].to_i,
         params[:format]
       )
@@ -18,6 +18,10 @@ module PostgresqlLoStreamer
       self.status = 200
       self.response_body = streamer.stream
 
+    end
+
+    def connection
+      @con ||= ActiveRecord::Base.connection.raw_connection
     end
 
   end
