@@ -6,6 +6,7 @@ describe PostgresqlLoStreamer::LoController do
   subject { response }
   let(:connection) { ActiveRecord::Base.connection.raw_connection }
   let(:file_content) { File.open("#{ENGINE_RAILS_ROOT}/spec/fixtures/test.jpg").read }
+  let(:csv_file_content) { File.open("#{ENGINE_RAILS_ROOT}/spec/fixtures/test.csv").read }
 
 
   describe "#connection" do
@@ -30,6 +31,46 @@ describe PostgresqlLoStreamer::LoController do
     end
 
     its(:body) { should == file_content }
+    its(:status) { should == 200 }
+  end
+
+  describe "GET mime stream jpg" do
+    before do
+      expect(controller).to receive(:send_file_headers!).with({:type => "image/jpeg", :disposition => "inline"})
+      connection.transaction do
+        @oid = connection.lo_creat
+        lo = connection.lo_open(@oid, ::PG::INV_WRITE)
+        size = connection.lo_write(lo, file_content)
+        connection.lo_close(lo)
+      end
+      get :stream, :id => @oid, format: 'jpg'
+    end
+
+    after do
+      connection.lo_unlink(@oid)
+    end
+
+    its(:body) { should == file_content }
+    its(:status) { should == 200 }
+  end
+
+  describe "GET mime stream csv" do
+    before do
+      expect(controller).to receive(:send_file_headers!).with({:type => "text/csv", :disposition => "attachment"})
+      connection.transaction do
+        @oid = connection.lo_creat
+        lo = connection.lo_open(@oid, ::PG::INV_WRITE)
+        size = connection.lo_write(lo, csv_file_content)
+        connection.lo_close(lo)
+      end
+      get :stream, :id => @oid, format: 'csv'
+    end
+
+    after do
+      connection.lo_unlink(@oid)
+    end
+
+    its(:body) { should == csv_file_content }
     its(:status) { should == 200 }
   end
 
