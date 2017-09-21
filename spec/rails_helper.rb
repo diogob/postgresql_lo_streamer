@@ -21,12 +21,12 @@ rescue
   ActiveRecord::Base.establish_connection(
     adapter: "postgresql",
     host: "localhost",
-    username: "ryanhelsing",
-    password: "",
+    username: "postgres",
+    password: "postgres",
     port: 5432,
     database: "postgres"
   )
-  # ActiveRecord::Base.connection.execute "CREATE DATABASE postgresql_lo_test"
+  ActiveRecord::Base.connection.execute "CREATE DATABASE postgresql_lo_test"
   retry
 end
 
