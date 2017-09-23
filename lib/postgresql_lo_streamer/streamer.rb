@@ -30,7 +30,4 @@ class PostgresqlLoStreamer::Streamer
     end
   end
 
-  def configuration
-    PostgresqlLoStreamer.configuration
-  end
 end
